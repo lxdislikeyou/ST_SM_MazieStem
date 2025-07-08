@@ -1,7 +1,8 @@
 
 #0.Set Work Dirtory----
 
-setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
+# setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
+getwd()
 
 #1.Load R Packages----
 
@@ -15,8 +16,8 @@ library(pheatmap)
 
 #2.Load R data----
 
-maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代点对点DZOE2025040772-b1/RDS/maize_merge_new.rds")
-
+# maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代点对点DZOE2025040772-b1/RDS/maize_merge_new.rds")
+maize_se <- readRDS(file.path(getwd(),'Git_data','maize_merge_new.rds'))
 #3.Find Markers Gene-----
 
 #3.1.Find All Marker-----
@@ -33,13 +34,11 @@ Markers_Data <- as.data.frame(Markers_Gene)
 
 #3.2.Marker Gene data Save-----
 
-Markers_Data_Path <- "D:/Work/Spatial_Project/ST_SM_MazieStem/Git_data/"
-
-write.xlsx(Markers_Data,paste0(Markers_Data_Path,"Markers_List.xlsx"))
+write.xlsx(Markers_Data,file.path(getwd(),"Git_data","Markers_List.xlsx"))
 
 #4.Extract Markers Gene Expression-----
 
-Markers_Gene <- read.xlsx(paste0(Markers_Data_Path,"Markers_List.xlsx"))
+Markers_Gene <- read.xlsx(file.path(getwd(),"Git_data","Markers_List.xlsx"))
 
 Markers_Gene_List <- Markers_Gene$gene
 
@@ -55,8 +54,9 @@ Markers_Gene_Data <- data.frame(Markers_Gene_Ex$SCT)
 colnames(Markers_Gene_Data)
 Markers_Gene_Data <- Markers_Gene_Data %>% select("Xyl","Phl","Scl","TB.EP","LDGT","EDGT","Hypo","Epi","Unk1","Unk2","Unk3")
 
-p1 <- pheatmap(as.matrix(Markers_Gene_Data), 
-               color = colorRampPalette(c("#2e77b4", "#f7f1ee", "#940e26"))(100),  # 定义颜色梯度
+heatmap_mrkGene <- pheatmap(as.matrix(Markers_Gene_Data), 
+               color = colorRampPalette(c("navy",'#1F78B4', "#FB9A99" ,'#E31A1C'))(50),  # 定义颜色梯度
+               # color = colorRampPalette(c("navy", "purple4" ,"#FFFF99","#E31A1C"))(50),  # 定义颜色梯度
                cluster_rows = F,  # 对行（GeneID）进行聚类
                cluster_cols = F,  # 对列（Cluster）进行聚类
                scale = "row",  # 对行进行标准化
@@ -68,19 +68,14 @@ p1 <- pheatmap(as.matrix(Markers_Gene_Data),
 
 #6.Save plot----
 
-MarkerHeatmap_save <- "D:/Work/Spatial_Project/空间转录组点对点/Spatial_project/MarkerHeatmap/"
+MarkerHeatmap_save <- "Figures"
 
-if(!dir.exists(MarkerHeatmap_save)){
-  dir.create(MarkerHeatmap_save)
+if (!dir.exists(MarkerHeatmap_save)) {
+  dir.create(file.path(getwd(),MarkerHeatmap_save))
 }
-
 # 保存为 SVG 矢量图
-svg(paste0(MarkerHeatmap_save,"MarkerHeatmap_plot.svg"), width = 10, height = 8)  
-p1
-dev.off()
-
-
-
-
+ggsave(plot=heatmap_mrkGene, file.path(getwd(),MarkerHeatmap_save,"MarkerHeatmap_plot.png"), width = 4, height = 12)  
+# heatmap_mrkGene
+# dev.off()
 
 

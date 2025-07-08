@@ -1,7 +1,7 @@
 
 #0.Set Work Dirtory----
 
-setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
+# setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
 
 #1.Load R Packages----
 
@@ -19,7 +19,8 @@ library(rvg)
 
 #2.Load R data----
 
-maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代点对点DZOE2025040772-b1/RDS/maize_merge_new.rds")
+# maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代点对点DZOE2025040772-b1/RDS/maize_merge_new.rds")
+maize_se <- readRDS(file.path(getwd(),'Git_data','maize_merge_new.rds'))
 
 #3.Draw Heat Umap----
 
@@ -50,11 +51,16 @@ DefaultAssay(T3) <- "SCT"
 
 cluster_levels <- levels(B73@meta.data$newclusters)  
 
-default_colors <- scales::hue_pal()(length(cluster_levels))
+# default_colors <- scales::hue_pal()(length(cluster_levels))
+default_colors <- RColorBrewer::brewer.pal(length(cluster_levels), "Paired") #LWH:set color for cluster
+scales::show_col(default_colors) # LWH:show how colors look like
+
 
 stopifnot(length(default_colors) == length(cluster_levels))
 
 named_colors <- setNames(default_colors, cluster_levels)
+
+
 
 #4.2.Spatial Plot----
 
@@ -84,7 +90,6 @@ B7_plot <- SpatialPlot(B7,
                         pt.size.factor = 1.8,
                         stroke = NA)
 
-
 T1_plot <- SpatialPlot(T1,
                        group.by = "newclusters",
                        cols = named_colors,
@@ -94,8 +99,8 @@ T1_plot <- SpatialPlot(T1,
                        # repel = T,
                        # alpha = c(0.5, 0.2),
                        image.alpha = 0.6,
-                       combine = F,
-                       pt.size.factor = 2,
+                       # combine = F,
+                       pt.size.factor = 1.8,
                        stroke = NA)
 
 T3_plot <- SpatialPlot(T3,
@@ -107,27 +112,27 @@ T3_plot <- SpatialPlot(T3,
                        # repel = T,
                        # alpha = c(0.5, 0.2),
                        image.alpha = 0.6,
-                       combine = F,
-                       pt.size.factor = 2,
+                       # combine = F,
+                       pt.size.factor = 1.8,
                        stroke = NA)
 
 B73_plot <- B3_plot|B7_plot
-Teo_plot <- B3_plot|B7_plot
+Teo_plot <- T1_plot|T3_plot
 
-Spatialplot_save <- "./Spatial_plot/"
+Spatialplot_save <- "Figures"
 
 if (!dir.exists(Spatialplot_save)) {
-  dir.create(Spatialplot_save)
+  dir.create(file.path(getwd(),Spatialplot_save))
 }
+
 
 #5.Save Plot----
 
 #5.1.SVG ----
   
-ggsave(plot = B73_plot, paste0(Spatialplot_save, "B73_SpatialPlot.svg"), device = "svg", 
-       width = 13, height = 5)
-ggsave(plot = Teo_plot, paste0(Spatialplot_save, "Teo_SpatialPlot.svg"), device = "svg", 
-       width = 13, height = 5)
+ggsave(plot = B73_plot, file.path(getwd(),Spatialplot_save,"B73_SpatialPlot.png"),width = 13, height = 5)
+
+ggsave(plot = Teo_plot,  file.path(getwd(),Spatialplot_save,"Teo_SpatialPlot.png"), width = 13, height = 5)
 
 #5.2.PPT----
 

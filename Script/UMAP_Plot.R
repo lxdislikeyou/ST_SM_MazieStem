@@ -1,8 +1,8 @@
 
 #0.Set Work Dirtory----
 
-setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
-
+# setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
+getwd()
 #1.Load R Packages----
 
 library(Seurat)
@@ -19,7 +19,9 @@ library(rvg)
 
 #2.Load R data----
 
-maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代点对点DZOE2025040772-b1/RDS/maize_merge_new.rds")
+# maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代点对点DZOE2025040772-b1/RDS/maize_merge_new.rds")
+
+maize_se <- readRDS(file.path(getwd(),'Git_data','maize_merge_new.rds'))
 
 #3.Draw Heat Umap----
 
@@ -35,13 +37,16 @@ DefaultAssay(Teo) <- "SCT"
 
 cluster_levels <- levels(B73@meta.data$newclusters)  
 
-default_colors <- scales::hue_pal()(length(cluster_levels))
+# default_colors <- scales::hue_pal()(length(cluster_levels))
+default_colors <- RColorBrewer::brewer.pal(length(cluster_levels), "Paired") #LWH:set color for cluster
+scales::show_col(default_colors) # LWH:show how colors look like
 
 stopifnot(length(default_colors) == length(cluster_levels))
 
 named_colors <- setNames(default_colors, cluster_levels)
 
-B73_plot <- CellDimPlot(B73, group.by = "newclusters", reduction = "UMAP", theme_use = "theme_blank",
+B73_plot <- CellDimPlot(B73, group.by = "newclusters", reduction = "UMAP", 
+                        # theme_use = "theme_blank",
                         label = T,
                         pt.alpha = 0.7,
                         label.bg = "black",
@@ -57,13 +62,22 @@ B73_plot <- CellDimPlot(B73, group.by = "newclusters", reduction = "UMAP", theme
                         mark_alpha = 0.1,    # 设置透明度
                         mark_linetype = 4,
                         mark_expand = unit(1, "mm"),  # 设置轮廓扩展范围
-                        add_density =T ,
+                        add_density =F ,
                         density_color = "grey80",
                         # density_filled = T,
                         # density_filled_palette = "Greys",
-                        pt.size = 1.5)
+                        pt.size = 1.5,
+                        theme_use     = "theme_blank",           # keep your blank base
+                        theme_args    = list(
+                          panel.border = element_rect(
+                            colour = "black",    # border color
+                            fill   = NA,         # transparent inside
+                            size   = 0.5         # line width
+                          ) #LWH: add frame
+                        ))
 
-Teo_plot <- CellDimPlot(Teo, group.by = "newclusters", reduction = "UMAP", theme_use = "theme_blank",
+Teo_plot <- CellDimPlot(Teo, group.by = "newclusters", reduction = "UMAP", 
+                        # theme_use = "theme_blank",
                         label = T,
                         pt.alpha = 0.7,
                         label.bg = "black",
@@ -79,24 +93,32 @@ Teo_plot <- CellDimPlot(Teo, group.by = "newclusters", reduction = "UMAP", theme
                         mark_alpha = 0.1,    # 设置透明度
                         mark_linetype = 4,
                         mark_expand = unit(1, "mm"),  # 设置轮廓扩展范围
-                        add_density =T ,
+                        add_density =F ,
                         density_color = "grey80",
                         # density_filled = T,
                         # density_filled_palette = "Greys",
-                        pt.size = 1.5)
+                        pt.size = 1.5,
+                        theme_use     = "theme_blank",           # keep your blank base
+                        theme_args    = list(
+                          panel.border = element_rect(
+                            colour = "black",    # border color
+                            fill   = NA,         # transparent inside
+                            size   = 0.5         # line width
+                          ) #LWH: add frame
+                        ))
 
 
 
 BT_plot <- B73_plot|Teo_plot
 BT_plot
 
-umap_save <- "./UMAP_plot/"
+umap_save <- "Figures"
 
 if (!dir.exists(umap_save)) {
-  dir.create(umap_save)
+  dir.create(file.path(getwd(),umap_save))
 }
 
-ggsave(plot = BT_plot,paste0(umap_save,"BT_umap.png"),dpi = 600,width = 13,height = 5)
+ggsave(plot = BT_plot,file.path(getwd(),umap_save,"BT_umap.png"),dpi = 600,width = 8,height = 3)
 
 #3.1.UMAPplot----
 
