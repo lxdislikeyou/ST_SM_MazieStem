@@ -23,9 +23,6 @@ maize_se <- readRDS("D:/Work/Spatial_Project/空间转录组点对点/空转代�
 
 #3.Draw Heat Umap----
 
-
-scale.col <- cet_pal(16,name = "fire")
-
 DefaultAssay(maize_se) <- "SCT"
 
 B73 <- subset(maize_se,orig.ident == c("B3","B7"))
@@ -34,7 +31,7 @@ Teo <- subset(maize_se,orig.ident == c("T1","T3"))
 DefaultAssay(B73) <- "SCT"
 DefaultAssay(Teo) <- "SCT"
 
-#3.1.UMAPplot----
+#3.1.UMAP Plot----
 
 stopifnot(length(default_colors) == length(cluster_levels))
 
