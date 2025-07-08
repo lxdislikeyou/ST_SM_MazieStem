@@ -33,6 +33,10 @@ DefaultAssay(Teo) <- "SCT"
 
 #3.1.UMAP Plot----
 
+cluster_levels <- levels(B73@meta.data$newclusters)  
+
+default_colors <- scales::hue_pal()(length(cluster_levels))
+
 stopifnot(length(default_colors) == length(cluster_levels))
 
 named_colors <- setNames(default_colors, cluster_levels)
