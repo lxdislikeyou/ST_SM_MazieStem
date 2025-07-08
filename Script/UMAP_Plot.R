@@ -36,6 +36,10 @@ DefaultAssay(Teo) <- "SCT"
 
 #3.1.UMAPplot----
 
+stopifnot(length(default_colors) == length(cluster_levels))
+
+named_colors <- setNames(default_colors, cluster_levels)
+
 B73_plot <- CellDimPlot(B73, group.by = "newclusters", reduction = "UMAP", theme_use = "theme_blank",
                         label = T,
                         pt.alpha = 0.7,
@@ -47,6 +51,7 @@ B73_plot <- CellDimPlot(B73, group.by = "newclusters", reduction = "UMAP", theme
                         lineages_trim = c(0.01, 0.99),
                         streamline_L = 5,
                         add_mark = F,
+                        palcolor = named_colors,
                         mark_type = "hull",  # 或 "ellipse"
                         mark_alpha = 0.1,    # 设置透明度
                         mark_linetype = 4,
@@ -56,7 +61,6 @@ B73_plot <- CellDimPlot(B73, group.by = "newclusters", reduction = "UMAP", theme
                         # density_filled = T,
                         # density_filled_palette = "Greys",
                         pt.size = 1.5)
-
 
 Teo_plot <- CellDimPlot(Teo, group.by = "newclusters", reduction = "UMAP", theme_use = "theme_blank",
                         label = T,
@@ -69,6 +73,7 @@ Teo_plot <- CellDimPlot(Teo, group.by = "newclusters", reduction = "UMAP", theme
                         lineages_trim = c(0.01, 0.99),
                         streamline_L = 5,
                         add_mark = F,
+                        palcolor = named_colors,
                         mark_type = "hull",  # 或 "ellipse"
                         mark_alpha = 0.1,    # 设置透明度
                         mark_linetype = 4,
