@@ -1,8 +1,3 @@
-
-#0.Set Work Dirtory----
-
-setwd("D:/Work/Spatial_Project/ST_SM_MazieStem")
-
 #1.Load R Packages----
 
 library(Seurat)
