@@ -74,7 +74,7 @@ if (!dir.exists(MarkerHeatmap_save)) {
 }
 
 # 保存为 SVG 矢量图
-svg(paste0(MarkerHeatmap_save,"MarkerHeatmap_plot.svg"), width = 10, height = 8)  
+svg(paste0(MarkerHeatmap_save,"/MarkerHeatmap_plot.svg"), width = 10, height = 8)  
 heatmap_mrkGene
 dev.off()
 # 保存为 PNG 矢量图
