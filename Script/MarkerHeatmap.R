@@ -2,7 +2,6 @@
 #0.Set Work Dirtory----
 
 # setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
-getwd()
 
 #1.Load R Packages----
 
@@ -73,9 +72,12 @@ MarkerHeatmap_save <- "Figures"
 if (!dir.exists(MarkerHeatmap_save)) {
   dir.create(file.path(getwd(),MarkerHeatmap_save))
 }
+
 # 保存为 SVG 矢量图
+svg(paste0(MarkerHeatmap_save,"MarkerHeatmap_plot.svg"), width = 10, height = 8)  
+heatmap_mrkGene
+dev.off()
+# 保存为 PNG 矢量图
 ggsave(plot=heatmap_mrkGene, file.path(getwd(),MarkerHeatmap_save,"MarkerHeatmap_plot.png"), width = 4, height = 12)  
-# heatmap_mrkGene
-# dev.off()
 
 
