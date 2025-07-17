@@ -102,7 +102,7 @@ for (i in 1:length(pos_mz)) {
   # 修改颜色（每个图都应用）
   p_list <- lapply(p_list, function(p) {
     p + 
-      scale_fill_gradientn(colors = c("#F8F8FF","#F5F5DC","#FA8072","#800000")) +
+      scale_fill_gradientn(colors = c("#2e77b4", "#f7f1ee", "#940e26")) +
       theme(legend.position = "none")
   })
   
