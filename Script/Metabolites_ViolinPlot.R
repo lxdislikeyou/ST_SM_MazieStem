@@ -111,7 +111,7 @@ cluster_colors <- c(
 
 Ac_list <- unique(Ac_list)
 for (i in 1:nrow(Ac_list)) {
-  i=3
+
   mz_of_interest <- Ac_list$mz[i]
   metaid <- Ac_list$Metabolites[i]
   
@@ -141,7 +141,7 @@ for (i in 1:nrow(Ac_list)) {
         background_x = elem_list_rect(fill = cluster_colors)
       ), scales = "free_x"
     ) +
-    scale_fill_manual(values = c("B73" = "#008080", "Teo" = "#3CB371")) +
+    scale_fill_manual(values = c("B73" = "#F8766D", "Teo" = "#009F8B")) +
     scale_y_continuous(
       breaks = scales::pretty_breaks(n = 5)  # 自动生成5个合理的Y轴刻度
     ) +
@@ -158,6 +158,7 @@ for (i in 1:nrow(Ac_list)) {
       axis.text = element_text(size = 16),
       axis.title = element_text(size = 18),
       strip.text = element_text(size = 16),
+      legend.position = "none",
       legend.text = element_text(size = 14),
       legend.title = element_text(size = 16),
       plot.title = element_text(
