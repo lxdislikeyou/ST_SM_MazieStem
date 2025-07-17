@@ -1,8 +1,4 @@
 
-#0.Set Work Dirtory----
-
-# setwd("D:/Work/Spatial_Project/空间转录组点对点/Spatial_project")
-getwd()
 #1.Load R Packages----
 
 library(Seurat)
@@ -127,20 +123,20 @@ Teo_nUmap <- CellDimPlot(Teo, group.by = "newclusters", reduction = "UMAP")
 
 BT_nplot <- B73_nUmap|Teo_nUmap
 
-ggsave(plot = BT_nplot,paste0(umap_save,"BT_numap.png"),dpi = 600,width = 13,height = 5)
+ggsave(plot = BT_nplot,paste0(umap_save,"/BT_numap.png"),dpi = 600,width = 13,height = 5)
 
 # For the first plot (BT_plot)
-ggsave(plot = BT_plot, paste0(umap_save, "BT_umap.pdf"), device = "pdf", 
+ggsave(plot = BT_plot, paste0(umap_save, "/BT_umap.pdf"), device = "pdf", 
        width = 13, height = 5)
 # Or as SVG
-ggsave(plot = BT_plot, paste0(umap_save, "BT_umap.svg"), device = "svg", 
+ggsave(plot = BT_plot, paste0(umap_save, "/BT_umap.svg"), device = "svg", 
        width = 13, height = 5)
 
 # For the second plot (BT_nplot)
-ggsave(plot = BT_nplot, paste0(umap_save, "BT_numap.pdf"), device = "pdf", 
+ggsave(plot = BT_nplot, paste0(umap_save, "/BT_numap.pdf"), device = "pdf", 
        width = 13, height = 5)
 # Or as SVG
-ggsave(plot = BT_nplot, paste0(umap_save, "BT_numap.svg"), device = "svg", 
+ggsave(plot = BT_nplot, paste0(umap_save, "/BT_numap.svg"), device = "svg", 
        width = 13, height = 5)
 
 
@@ -163,5 +159,5 @@ ppt <- ppt %>%
   )
 
 # 保存合并后的 PPT
-print(ppt, target = paste0(umap_save, "BT_UMAP_combined.pptx"))
+print(ppt, target = paste0(umap_save, "/BT_UMAP_combined.pptx"))
 
