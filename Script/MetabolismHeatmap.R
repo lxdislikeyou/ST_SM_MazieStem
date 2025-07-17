@@ -78,12 +78,13 @@ length(features_use)
 features_use <- as.character(features_use)
 Ac_list$mz <- as.character(Ac_list$mz)
 
-# 替换 mz 为代谢物名（保留顺序）
-features_label <- mz_to_name[features_use]
-names(features_label) <- features_use  # 确保 names 对应 rownames
 
 # 创建映射向量
 mz_to_name <- setNames(Ac_list$Metabolites, Ac_list$mz)
+
+# 替换 mz 为代谢物名（保留顺序）
+features_label <- mz_to_name[features_use]
+names(features_label) <- features_use  # 确保 names 对应 rownames
 
 #3.3.Draw Goup HeatMap----
 
@@ -175,8 +176,8 @@ ht <- Heatmap(
     legend_height = unit(3, "cm")  # 图例高度
   ),
   # border_gp = gpar(col = "black", lty = 2, lwd = 2) , # 虚线，宽度2
-  cluster_rows = TRUE,  # 保持行
-  cluster_columns = TRUE,  # 保持列聚类
+  cluster_rows = F,  # 保持行
+  cluster_columns = F,  # 保持列聚类
   show_row_dend = FALSE,  # 隐藏行聚类树
   show_column_dend = FALSE,  # 隐藏列聚类树
   show_row_names = TRUE,
@@ -194,9 +195,9 @@ print(ht)
 
 #4.Save Plot----
 
-# svg(file.path(getwd(),'Figures','MetabolismHeatmap.svg'), width = 10, height = 7)
-# draw(ht, heatmap_legend_side = "right")
-# dev.off()
+svg(file.path(getwd(),'Figures','/MetabolismHeatmap.svg'), width = 10, height = 7)
+draw(ht, heatmap_legend_side = "right")
+dev.off()
 
 #5.Draw B73 HeatMap----
 
@@ -301,7 +302,10 @@ Heat_map <- function(SM_DF,Accession = "B73"){
   
   row_anno_labels <- rownames(heatmap_obj)
   
+  heatmap_b73 <- heatmap_obj
+  
   ht <- Heatmap(
+    # log2(heatmap_obj+1),
     heatmap_obj,
     # name = "Expression",
     name = " ", #隐藏图例名称
@@ -317,8 +321,8 @@ Heat_map <- function(SM_DF,Accession = "B73"){
       legend_height = unit(3, "cm")  # 图例高度
     ),
     # border_gp = gpar(col = "black", lty = 2, lwd = 2) , # 虚线，宽度2
-    cluster_rows = TRUE,  # 保持行聚类
-    cluster_columns = TRUE,  # 保持列聚类
+    cluster_rows = F,  # 保持行聚类
+    cluster_columns = F,  # 保持列聚类
     show_row_dend = FALSE,  # 隐藏行聚类树
     show_column_dend = FALSE,  # 隐藏列聚类树
     show_row_names = TRUE,
@@ -331,7 +335,7 @@ Heat_map <- function(SM_DF,Accession = "B73"){
     jitter = F,
     row_title = "Metabolite"
   )
-  return(ht)
+  return(heatmap_b73)
 }
 
 B73_se <- subset(maize_se,orig.ident %in% c("B3","B7"))
@@ -340,9 +344,9 @@ B73_Heatmap <- Heat_map(SM_DF = B73_se
                         ,Accession = "B73")
 
 
-svg(file.path(getwd(),'Figures','B73_MetabolismHeatmap.svg'), width = 10, height = 7)
-draw(ht, heatmap_legend_side = "right")
-dev.off()
+# svg(file.path(getwd(),'Figures','/B73_MetabolismHeatmap.svg'), width = 10, height = 7)
+# draw(B73_Heatmap, heatmap_legend_side = "right")
+# dev.off()
 
 #5.Draw Teo HeatMap----
 
@@ -385,12 +389,12 @@ Heat_map <- function(SM_DF,Accession = "Teo"){
   features_use <- as.character(features_use)
   Ac_list$mz <- as.character(Ac_list$mz)
   
+  # 创建映射向量
+  mz_to_name <- setNames(Ac_list$Metabolites, Ac_list$mz)
+  
   # 替换 mz 为代谢物名（保留顺序）
   features_label <- mz_to_name[features_use]
   names(features_label) <- features_use  # 确保 names 对应 rownames
-  
-  # 创建映射向量
-  mz_to_name <- setNames(Ac_list$Metabolites, Ac_list$mz)
   
   #3.3.Draw Goup HeatMap----
   
@@ -447,7 +451,10 @@ Heat_map <- function(SM_DF,Accession = "Teo"){
   
   row_anno_labels <- rownames(heatmap_obj)
   
+  heatmap_TEO <- heatmap_obj
+  
   ht <- Heatmap(
+    # log2(heatmap_obj+1),
     heatmap_obj,
     # name = "Expression",
     name = " ", #隐藏图例名称
@@ -463,8 +470,8 @@ Heat_map <- function(SM_DF,Accession = "Teo"){
       legend_height = unit(3, "cm")  # 图例高度
     ),
     # border_gp = gpar(col = "black", lty = 2, lwd = 2) , # 虚线，宽度2
-    cluster_rows = TRUE,  # 保持行聚类
-    cluster_columns = TRUE,  # 保持列聚类
+    cluster_rows = F,  # 保持行聚类
+    cluster_columns = F,  # 保持列聚类
     show_row_dend = FALSE,  # 隐藏行聚类树
     show_column_dend = FALSE,  # 隐藏列聚类树
     show_row_names = TRUE,
@@ -477,7 +484,7 @@ Heat_map <- function(SM_DF,Accession = "Teo"){
     jitter = F,
     row_title = "Metabolite"
   )
-  return(ht)
+  return(heatmap_TEO)
 }
 
 Teo_se <- subset(maize_se,orig.ident %in% c("T1","T3"))
@@ -486,18 +493,53 @@ Teo_Heatmap <- Heat_map(SM_DF = Teo_se
                         ,Accession = "Teo")
 
 
-svg(file.path(getwd(),'Figures','Teo_MetabolismHeatmap.svg'), width = 10, height = 7)
-draw(ht, heatmap_legend_side = "right")
-dev.off()
+# svg(file.path(getwd(),'Figures','/Teo_MetabolismHeatmap.svg'), width = 10, height = 7)
+# draw(Teo_Heatmap, heatmap_legend_side = "right")
+# dev.off()
+
+
+##=== Merge Data All ===##
+
+rownames(B73_Heatmap) <- paste0("B73_",rownames(B73_Heatmap))
+rownames(Teo_Heatmap) <- paste0("Ames21814_",rownames(Teo_Heatmap))
+
+Heatmap <- rbind(B73_Heatmap,Teo_Heatmap)
+
+row_anno_labels <- rownames(Heatmap)
+
+Heatmap <- Heatmap[, c("Xyl", "Phl", "Scl")]
 
 
 
-
-
-
-
-
-
-
-
-
+ht <- Heatmap(
+  # log2(heatmap_obj+1),
+  Heatmap,
+  # name = "Expression",
+  name = " ", #隐藏图例名称
+  col = colorRamp2(c(-4, 0, 4), c("#2e77b4", "#f7f1ee", "#940e26")), 
+  rect_gp = gpar(col = "gray80", lwd = 0.5),
+  border = "gray50",
+  heatmap_legend_param = list(
+    title = NULL, #不显示标题
+    border = "black",  # 设置图例边框颜色
+    at = c(-4, -2,0,2, 4), #图例刻度
+    direction = "vertical",#垂直图例
+    title_position = "topcenter" ,#标题位置
+    legend_height = unit(3, "cm")  # 图例高度
+  ),
+  # border_gp = gpar(col = "black", lty = 2, lwd = 2) , # 虚线，宽度2
+  cluster_rows = T,  # 保持行聚类
+  cluster_columns = F,  # 保持列聚类
+  show_row_dend = FALSE,  # 隐藏行聚类树
+  show_column_dend = FALSE,  # 隐藏列聚类树
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_side = "left",
+  row_names_gp = gpar(fontsize = 10),
+  row_labels = row_anno_labels,
+  # column_title = Accession,
+  # gap = unit(2, "mm"),
+  jitter = F,
+  row_title = "Metabolite"
+)
+print(ht)
