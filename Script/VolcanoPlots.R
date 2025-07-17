@@ -114,6 +114,7 @@ ggsave(paste0(VolcanoPlotsave,"/","All_VolcanoPlots.svg"), combined_plot, width 
 #4.Extract Different Gene----
 
 wb <- createWorkbook()
+wb_all <- createWorkbook()
 
 #4.1.提取结果表----
 
@@ -139,19 +140,22 @@ for (i in 1:nrow(Cluster_name)) {
   
   #4.2.设置阈值（和火山图一致）----
   
-  de_df_filter <- de_df[de_df$avg_log2FC > 1 & de_df$p_val_adj < 0.05, ]
+  de_df_filter <- de_df[abs(de_df$avg_log2FC) > 1 & de_df$p_val_adj < 0.05, ]
   
   #4.3.Add sheet names----
   
   addWorksheet(wb, sheetName = comp_name)
   writeData(wb, sheet = comp_name, x = de_df_filter)
   
+  addWorksheet(wb_all, sheetName = comp_name)
+  writeData(wb_all, sheet = comp_name, x = de_df)
+  
 }
 
 #4.4.Save Excel File----
 
-saveWorkbook(wb, file =paste0("Git_data/","DEG_AllComparisons.xlsx"), overwrite = TRUE)
-
+saveWorkbook(wb, file = file.path(getwd(),'Git_data','DEG_AllComparisons.xlsx'), overwrite = TRUE)
+saveWorkbook(wb_all, file = file.path(getwd(),'Git_data','DEG_All_noFilter.xlsx'), overwrite = TRUE)
 
 
 
