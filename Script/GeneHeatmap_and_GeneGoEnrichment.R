@@ -96,7 +96,7 @@ B73_Heatmap <- pheatmap(t(as.matrix(B73_Marker_Gene_Data)),
                         silent = TRUE   
 )
 
-svg(file.path(getwd(),"Figures/B73_GeneHeatmap.svg")), width = 6, height = 5)
+svg(file.path(getwd(),"Figures/B73_GeneHeatmap.svg"), width = 6, height = 5)
 
 print(B73_Heatmap)
 
@@ -120,7 +120,7 @@ Teo_Heatmap <- pheatmap(t(as.matrix(Teo_Marker_Gene_Data)),
                         silent = TRUE   
 )
 
-svg(file.path(getwd(),"Figures/Teo_GeneHeatmap.svg")), width = 6, height = 5)
+svg(file.path(getwd(),"Figures/Teo_GeneHeatmap.svg"), width = 6, height = 5)
 
 print(Teo_Heatmap)
 
