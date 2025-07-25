@@ -76,7 +76,7 @@ if (!dir.exists(KEGG_Photo)) {
   dir.create(KEGG_Photo)
 }
 
-for (i in 7:length(sheet_names)) {
+for (i in 1:length(sheet_names)) {
   
 print(paste0("目前正在绘制第",i,"个组织:",sheet_names[i],"的KEGG"))
 
